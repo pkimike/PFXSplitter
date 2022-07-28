@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="PFXSplitter.Views.UserControls.FromPfxUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:behaviors="clr-namespace:SysadminsLV.WPF.OfficeTheme.Toolkit.Behaviors;assembly=Wpf.OfficeTheme"
+             xmlns:dc="clr-namespace:PFXSplitter.ViewModels"
+             xmlns:local="clr-namespace:PFXSplitter.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance dc:FromPfxViewModel}"
+             d:DesignHeight="450" d:DesignWidth="800"
+             Foreground="Navy">
+    <DockPanel Margin="5">
+        <DockPanel Dock="Top">
+            <TextBlock FontSize="24"
+                       FontWeight="Bold"
+                       Text="Convert From PFX"/>
+        </DockPanel>
+        <DockPanel Dock="Bottom">
+            <Button HorizontalAlignment="Right"
+                    Margin="10,10,20,10"
+                    Width="150"
+                    Height="50"
+                    Content="Split PFX"
+                    Style="{StaticResource WinAll}"
+                    Command="{Binding SplitPfxCommand}"></Button>
+        </DockPanel>
+        <Grid behaviors:MarginSetter.Margin="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Style="{StaticResource TextBlockStyle}"
+                       Text="PFX File Path: "/>
+            <TextBox Grid.Row="0" 
+                     Grid.Column="1"
+                     IsReadOnly="True"
+                     Style="{StaticResource WinAll}"
+                     Text="{Binding PfxFilePath, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Grid.Row="0" 
+                    Grid.Column="2"
+                    Style="{StaticResource WinAll}"
+                    Width="150"
+                    Content="Select"
+                    Command="{Binding SelectPfxFileCommand}"/>
+            <TextBlock Grid.Row="1"
+                       Grid.Column="0"
+                       Style="{StaticResource TextBlockStyle}"
+                       Text="Output Directory: "/>
+            <TextBox Grid.Row="1"
+                     Grid.Column="1"
+                     Style="{StaticResource WinAll}"
+                     IsReadOnly="True"
+                     Text="{Binding OutDirPath}"/>
+            <Button Grid.Row="1"
+                    Grid.Column="2"
+                    Style="{StaticResource WinAll}"
+                    Content="Select"
+                    Command="{Binding SetOutDirPathCommand}"/>
+            <TextBlock Grid.Row="2" 
+                       Grid.Column="0"
+                       Style="{StaticResource TextBlockStyle}"
+                       Text="Output File Prefix: "/>
+            <TextBox Grid.Row="2"
+                     Grid.Column="1"
+                     Style="{StaticResource WinAll}"
+                     Text="{Binding OutFileNamePrefix, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+    </DockPanel>
+</UserControl>

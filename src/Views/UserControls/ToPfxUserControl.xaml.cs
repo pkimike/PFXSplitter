@@ -2,10 +2,10 @@
 
 namespace Pkcs12Converter.Views.UserControls {
     /// <summary>
-    /// Interaction logic for FromPfxUserControl.xaml
+    /// Interaction logic for ToPfxUserControl.xaml
     /// </summary>
-    public partial class FromPfxUserControl : UserControl {
-        public FromPfxUserControl() {
+    public partial class ToPfxUserControl : UserControl {
+        public ToPfxUserControl() {
             InitializeComponent();
         }
     }

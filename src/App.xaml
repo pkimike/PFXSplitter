@@ -1,7 +1,7 @@
-﻿<Application x:Class="PFXSplitter.App"
+﻿<Application x:Class="Pkcs12Converter.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:PFXSplitter"
+             xmlns:local="clr-namespace:Pkcs12Converter"
              StartupUri="Views/Windows/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -9,21 +9,21 @@
                 <ResourceDictionary Source="pack://application:,,,/Wpf.OfficeTheme;component/UI/OfficeTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="WinAll" TargetType="{x:Type Control}">
-            <Setter Property="FontFamily"
+                <Setter Property="FontFamily"
                     Value="Segoe UI" />
-            <Setter Property="FontSize"
+                <Setter Property="FontSize"
                     Value="16" />
-        </Style>
-        <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
-            <Setter Property="FontFamily"
+            </Style>
+            <Style x:Key="TextBlockStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontFamily"
                     Value="Segoe UI" />
-            <Setter Property="FontSize"
+                <Setter Property="FontSize"
                     Value="16" />
-            <Setter Property="VerticalAlignment"
+                <Setter Property="VerticalAlignment"
                     Value="Center"/>
-            <Setter Property="HorizontalAlignment"
+                <Setter Property="HorizontalAlignment"
                     Value="Right"/>
-        </Style>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

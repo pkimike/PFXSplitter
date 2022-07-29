@@ -1,33 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
+using System.Windows;
 using System.Windows.Input;
-using PFXSplitter.Properties;
+using Pkcs12Converter.API;
+using SysadminsLV.WPF.OfficeTheme.Toolkit;
 using SysadminsLV.WPF.OfficeTheme.Toolkit.Commands;
 
-namespace PFXSplitter.ViewModels {
-    class FromPfxViewModel : AsyncViewModel {
-        const String PASSWORDS_DONT_MATCH = "Passwords must match";
+namespace Pkcs12Converter.ViewModels {
+    class FromPfxViewModel : DefaultViewModel {
 
-        String pfxFilePath,
-               outDirPath,
-               outFileNamePrefix,
-               password,
-               confirmPassword;
-               
-        String misMatchedPasswords = String.Empty;
+        static readonly List<String> Pkcs12Extensions = new() { "pfx", "p12" };
 
-        Boolean usePassword,
-                passwordsMatch;
+        String pfxFilePath = String.Empty;
+        String pfxPassword = String.Empty;
+        
 
         public FromPfxViewModel() {
             SelectPfxFileCommand = new RelayCommand(selectPfxFile);
-            SetOutDirPathCommand = new RelayCommand(selectDir);
             SplitPfxCommand = new RelayCommand(splitPfx, canSplitPfx);
         }
 
         public ICommand SelectPfxFileCommand { get;}
-        public ICommand SetOutDirPathCommand { get;}
         public ICommand SplitPfxCommand { get; }
 
         public String PfxFilePath {
@@ -37,108 +31,34 @@ namespace PFXSplitter.ViewModels {
                 OnPropertyChanged(nameof(PfxFilePath));
             }
         }
-        public String OutDirPath {
-            get => outDirPath;
-            set {
-               outDirPath = value;
-               OnPropertyChanged(nameof(OutDirPath));
-            }
-        }
-        public String OutFileNamePrefix {
-            get => outFileNamePrefix;
-            set {
-                outFileNamePrefix = value;
-                OnPropertyChanged(nameof(OutFileNamePrefix));
-            }
-        }
 
-        public String Password {
-            get => password;
+        public String PfxPassword {
+            get => pfxPassword;
             set {
-                password = value;
-                PasswordsMatch = Password.Equals(ConfirmPassword, StringComparison.InvariantCulture);
-                OnPropertyChanged(nameof(Password));
-            }
-        }
-
-        public String ConfirmPassword {
-            get => confirmPassword;
-            set {
-                confirmPassword = value;
-                PasswordsMatch = Password.Equals(ConfirmPassword, StringComparison.InvariantCulture);
-                OnPropertyChanged(nameof(ConfirmPassword));
-            }
-        }
-        public String MisMatchedPasswords {
-            get => misMatchedPasswords;
-            set {
-                misMatchedPasswords = value;
-                OnPropertyChanged(nameof(MisMatchedPasswords));
-            }
-        }
-        public Boolean PasswordsMatch {
-            get => passwordsMatch;
-            set {
-                passwordsMatch = value;
-                if (String.IsNullOrEmpty(Password) || String.IsNullOrEmpty(ConfirmPassword) || passwordsMatch) {
-                    MisMatchedPasswords = String.Empty;
-                } else {
-                    MisMatchedPasswords = PASSWORDS_DONT_MATCH;
-                }
-            }
-        }
-        public Boolean UsePassword {
-            get => usePassword;
-            set {
-                usePassword = value;
-                if (!usePassword) {
-                    Password = String.Empty;
-                    ConfirmPassword = String.Empty;
-                    MisMatchedPasswords = String.Empty;
-                }
-                OnPropertyChanged(nameof(UsePassword));
-            }
-        }
-
-        String getPemFile() => getFilePath("pem");
-        String getKeyFile() => getFilePath("key");
-        String getFilePath(String extension) {
-            if (String.IsNullOrEmpty(OutDirPath) || String.IsNullOrEmpty(OutFileNamePrefix)) {
-                return String.Empty;
-            }
-
-            return $"{OutDirPath}\\{OutFileNamePrefix}.{extension}";
-        }
-        void selectDir(Object o) {
-            var dirBrowser = new FolderBrowserDialog {
-                SelectedPath = Directory.GetCurrentDirectory(),
-                ShowNewFolderButton = true
-            };
-
-            DialogResult result = dirBrowser.ShowDialog();
-            if (result == DialogResult.OK) {
-                OutDirPath = dirBrowser.SelectedPath;
+                pfxPassword = value;
+                OnPropertyChanged(nameof(PfxPassword));
             }
         }
 
         void selectPfxFile(Object o) {
-            var fileBrowser = new OpenFileDialog {
-                DefaultExt = ".pfx",
-                Filter = Resources.Pkcs12FileExtensions,
-                CheckFileExists = true,
-                InitialDirectory = Environment.CurrentDirectory
-            };
-
-            DialogResult result = fileBrowser.ShowDialog();
-            if (result == DialogResult.OK) {
-                PfxFilePath = fileBrowser.FileName;
+            if (FileSystemUtilities.SelectFile(Pkcs12Extensions, false, out String selectedPath)) {
+                PfxFilePath = selectedPath;
             }
         }
-
         void splitPfx(Object o) {
+            Boolean result = Pkcs12Convert.ToCertAndKey(PfxFilePath,
+                (String.IsNullOrEmpty(PfxPassword) ? null : PfxPassword),
+                getFilePath("pem"),
+                getFilePath("key"),
+                (String.IsNullOrEmpty(Password) ? null : Password),
+                out String error);
 
+            if (result) {
+                MsgBox.Show("Success", "Successfully extracted PEM-encoded certificate and key", MessageBoxImage.Information);
+            } else {
+                MsgBox.Show("Error", error);
+            }
         }
-
         Boolean canSplitPfx(Object o) => !String.IsNullOrEmpty(OutDirPath) && 
                                          Directory.Exists(OutDirPath) && 
                                          !String.IsNullOrEmpty(PfxFilePath) && 

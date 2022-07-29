@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace PFXSplitter.Views.UserControls {
+namespace Pkcs12Converter.Views.UserControls {
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>

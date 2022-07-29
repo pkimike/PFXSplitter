@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace PFXSplitter.Views.Windows {
+namespace Pkcs12Converter.Views.Windows {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>

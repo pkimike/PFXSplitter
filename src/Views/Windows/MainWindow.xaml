@@ -1,19 +1,22 @@
-﻿<Window x:Class="PFXSplitter.Views.Windows.MainWindow"
+﻿<Window x:Class="Pkcs12Converter.Views.Windows.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:uc="clr-namespace:PFXSplitter.Views.UserControls"
-        xmlns:dc="clr-namespace:PFXSplitter.ViewModels"
-        xmlns:local="clr-namespace:PFXSplitter"
+        xmlns:local="clr-namespace:Pkcs12Converter"
+        xmlns:dc="clr-namespace:Pkcs12Converter.ViewModels"
+        xmlns:uc="clr-namespace:Pkcs12Converter.Views.UserControls"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="PKCS#12 Converter" Height="450" Width="800">
     <Window.DataContext>
         <dc:MainWindowViewModel/>
     </Window.DataContext>
     <TabControl Background="{StaticResource PanelBackgroundBrush}">
-        <TabItem Header="Split Pfx">
+        <TabItem Header="Split From PKCS#12">
             <uc:FromPfxUserControl DataContext="{Binding FromPfx}"></uc:FromPfxUserControl>
+        </TabItem>
+        <TabItem Header="Combine To PKCS#12">
+            <uc:ToPfxUserControl DataContext="{Binding ToPfx}"></uc:ToPfxUserControl>
         </TabItem>
     </TabControl>
 </Window>

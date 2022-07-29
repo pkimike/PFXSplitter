@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Reference Include="Wpf.OfficeTheme">
+	    <HintPath>..\lib\Wpf.OfficeTheme.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Page Update="Views\UserControls\BindablePasswordBox.xaml">
+	    <SubType>Designer</SubType>
+	  </Page>
+	  <Page Update="Views\UserControls\FromPfxUserControl.xaml">
+	    <SubType>Designer</SubType>
+	  </Page>
+	  <Page Update="Views\UserControls\ToPfxUserControl.xaml">
+	    <SubType>Designer</SubType>
+	  </Page>
+	</ItemGroup>
+</Project>

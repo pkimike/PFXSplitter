@@ -61,6 +61,15 @@ namespace PFXSplitter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PEM files (*.pem)|*.pem|All files (*.*)|*.*.
+        /// </summary>
+        internal static string PemFileExtensions {
+            get {
+                return ResourceManager.GetString("PemFileExtensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to pfx files (*.pfx)|*.pfx|p12 files (*.p12)|*.p12.
         /// </summary>
         internal static string Pkcs12FileExtensions {

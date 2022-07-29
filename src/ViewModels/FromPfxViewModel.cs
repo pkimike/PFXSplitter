@@ -7,9 +7,18 @@ using SysadminsLV.WPF.OfficeTheme.Toolkit.Commands;
 
 namespace PFXSplitter.ViewModels {
     class FromPfxViewModel : AsyncViewModel {
+        const String PASSWORDS_DONT_MATCH = "Passwords must match";
+
         String pfxFilePath,
                outDirPath,
-               outFileNamePrefix;
+               outFileNamePrefix,
+               password,
+               confirmPassword;
+               
+        String misMatchedPasswords = String.Empty;
+
+        Boolean usePassword,
+                passwordsMatch;
 
         public FromPfxViewModel() {
             SelectPfxFileCommand = new RelayCommand(selectPfxFile);
@@ -40,6 +49,54 @@ namespace PFXSplitter.ViewModels {
             set {
                 outFileNamePrefix = value;
                 OnPropertyChanged(nameof(OutFileNamePrefix));
+            }
+        }
+
+        public String Password {
+            get => password;
+            set {
+                password = value;
+                PasswordsMatch = Password.Equals(ConfirmPassword, StringComparison.InvariantCulture);
+                OnPropertyChanged(nameof(Password));
+            }
+        }
+
+        public String ConfirmPassword {
+            get => confirmPassword;
+            set {
+                confirmPassword = value;
+                PasswordsMatch = Password.Equals(ConfirmPassword, StringComparison.InvariantCulture);
+                OnPropertyChanged(nameof(ConfirmPassword));
+            }
+        }
+        public String MisMatchedPasswords {
+            get => misMatchedPasswords;
+            set {
+                misMatchedPasswords = value;
+                OnPropertyChanged(nameof(MisMatchedPasswords));
+            }
+        }
+        public Boolean PasswordsMatch {
+            get => passwordsMatch;
+            set {
+                passwordsMatch = value;
+                if (String.IsNullOrEmpty(Password) || String.IsNullOrEmpty(ConfirmPassword) || passwordsMatch) {
+                    MisMatchedPasswords = String.Empty;
+                } else {
+                    MisMatchedPasswords = PASSWORDS_DONT_MATCH;
+                }
+            }
+        }
+        public Boolean UsePassword {
+            get => usePassword;
+            set {
+                usePassword = value;
+                if (!usePassword) {
+                    Password = String.Empty;
+                    ConfirmPassword = String.Empty;
+                    MisMatchedPasswords = String.Empty;
+                }
+                OnPropertyChanged(nameof(UsePassword));
             }
         }
 
@@ -86,6 +143,7 @@ namespace PFXSplitter.ViewModels {
                                          Directory.Exists(OutDirPath) && 
                                          !String.IsNullOrEmpty(PfxFilePath) && 
                                          File.Exists(PfxFilePath) && 
-                                         !String.IsNullOrEmpty(OutFileNamePrefix);
+                                         !String.IsNullOrEmpty(OutFileNamePrefix) &&
+                                         (PasswordsMatch || !UsePassword);
     }
 }

@@ -35,6 +35,10 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Style="{StaticResource TextBlockStyle}"
                        Text="PFX File Path: "/>
@@ -71,6 +75,37 @@
                      Grid.Column="1"
                      Style="{StaticResource WinAll}"
                      Text="{Binding OutFileNamePrefix, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Grid.Row="3"
+                       Grid.Column="0"
+                       Style="{StaticResource TextBlockStyle}"
+                       Text="Protect Key with Password?: "></TextBlock>
+            <CheckBox Grid.Row="3"
+                      Grid.Column="1"
+                      VerticalAlignment="Center"
+                      IsChecked="{Binding UsePassword}"></CheckBox>
+            <TextBlock Grid.Row="4"
+                       Grid.Column="0"
+                       Style="{StaticResource TextBlockStyle}"
+                       Text="Password: "></TextBlock>
+            <local:BindablePasswordBox Grid.Row="4"
+                                       Grid.Column="1"
+                                       Style="{StaticResource WinAll}"
+                                       Password="{Binding Password}"
+                                       IsEnabled="{Binding UsePassword}"/>
+            <TextBlock Grid.Row="5"
+                       Grid.Column="0"
+                       Style="{StaticResource TextBlockStyle}"
+                       Text="Confirm Password: "></TextBlock>
+            <local:BindablePasswordBox Grid.Row="5"
+                                       Grid.Column="1"
+                                       Style="{StaticResource WinAll}"
+                                       Password="{Binding ConfirmPassword}"
+                                       IsEnabled="{Binding UsePassword}"/>
+            <TextBlock Grid.Row="6"
+                       Grid.Column="1"
+                       Foreground="Red"
+                       Style="{StaticResource TextBlockStyle}"
+                       Text="{Binding MisMatchedPasswords}"></TextBlock>
         </Grid>
     </DockPanel>
 </UserControl>

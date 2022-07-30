@@ -37,6 +37,7 @@ namespace Pkcs12Converter.ViewModels {
             get => password;
             set {
                 password = value;
+                PasswordsMatch = Password.Equals(ConfirmPassword, StringComparison.InvariantCulture);
                 OnPropertyChanged(nameof(Password));
             }
         }
@@ -45,6 +46,7 @@ namespace Pkcs12Converter.ViewModels {
             get => confirmPassword;
             set {
                 confirmPassword = value;
+                PasswordsMatch = Password.Equals(ConfirmPassword, StringComparison.InvariantCulture);
                 OnPropertyChanged(nameof(ConfirmPassword));
             }
         }

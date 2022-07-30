@@ -9,8 +9,8 @@ class Pkcs12Convert {
     public static Boolean ToCertAndKey(String pfxFilePath, String? unlockPassword, String certFilePath, String keyFilePath, String? keyPassword, out String error) {
         try {
             error = String.Empty;
-            using var bundle = new X509Certificate2(pfxFilePath, unlockPassword);
-            AsymmetricAlgorithm key = (AsymmetricAlgorithm)bundle.GetRSAPrivateKey() ?? 
+            using var bundle = new X509Certificate2(pfxFilePath, unlockPassword, X509KeyStorageFlags.Exportable);
+            AsymmetricAlgorithm key = (AsymmetricAlgorithm)bundle.GetRSAPrivateKey() ??
                                       bundle.GetECDsaPrivateKey() ??
                                       throw new ArgumentException("Could not load the private key");
 
